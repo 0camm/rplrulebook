@@ -1,0 +1,1163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, viewport-fit=cover">
+<title>RPL — Official Rulebook</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="icon" href="Images/RPL-Logo.png?v=2" type="image/png">
+<style>
+
+/* ============================================================
+   DESIGN TOKENS — matched to the main RPL site
+   ============================================================ */
+:root{
+  --red:#e8001d;
+  --red-dim:rgba(232,0,29,.13);--red-mid:rgba(232,0,29,.18);--red-edge:rgba(232,0,29,.4);
+  --bg:#08080f;--s1:#0e0e1a;--s2:#131322;--s3:#191929;--s4:#202034;
+  --b:rgba(255,255,255,.06);--b2:rgba(255,255,255,.03);
+  --mu:#52526a;--mu2:#3c3c55;
+  --tx:#e2e2f2;--tx2:#9898b8;
+  --gr:#18d464;--gr-d:rgba(24,212,100,.09);
+  --am:#f5a623;--am-d:rgba(245,166,35,.09);
+  --bl:#5b9cf6;--bl-d:rgba(91,156,246,.09);
+  --nav-h:56px;
+  --safe-top:env(safe-area-inset-top,0px);
+  --safe-bottom:env(safe-area-inset-bottom,0px);
+}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  background:var(--bg);color:var(--tx);
+  font-family:'Inter',sans-serif;font-size:14px;
+  min-height:100vh;-webkit-font-smoothing:antialiased;
+  width:100%;max-width:100vw;overflow-x:hidden;
+}
+::-webkit-scrollbar{width:4px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:var(--mu2);border-radius:4px}
+a{color:inherit}
+
+/* ---------- NAV ---------- */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:200;
+  height:var(--nav-h);padding-top:var(--safe-top);
+  display:flex;align-items:center;justify-content:space-between;
+  padding-left:20px;padding-right:20px;
+  background:rgba(8,8,15,.92);
+  backdrop-filter:blur(24px) saturate(160%);-webkit-backdrop-filter:blur(24px) saturate(160%);
+  border-bottom:1px solid var(--b2);
+}
+.nav-logo{display:flex;align-items:center;gap:10px;text-decoration:none;-webkit-tap-highlight-color:transparent}
+.nav-brand{font-family:'Bebas Neue',sans-serif;font-size:17px;letter-spacing:.08em;color:#fff;white-space:nowrap}
+.nav-brand em{color:var(--red);font-style:normal}
+.nav-pill{font-size:10px;font-weight:600;letter-spacing:.08em;color:var(--mu);text-transform:uppercase;background:var(--s2);border:1px solid var(--b);border-radius:20px;padding:3px 9px}
+.nav-back{
+  display:inline-flex;align-items:center;gap:6px;
+  font-size:12.5px;font-weight:500;color:var(--tx2);text-decoration:none;
+  padding:6px 12px;border-radius:7px;transition:color .16s,background .16s;
+}
+.nav-back:hover{color:#fff;background:rgba(255,255,255,.055)}
+
+/* ---------- HERO ---------- */
+.rb-hero{
+  padding:calc(var(--nav-h) + var(--safe-top) + 44px) 20px 32px;
+  position:relative;border-bottom:1px solid var(--b2);
+  background:
+    radial-gradient(600px 300px at 85% 0%, rgba(232,0,29,.10), transparent 70%);
+}
+.rb-eyebrow{
+  display:inline-flex;align-items:center;gap:9px;
+  font-size:10px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--red);margin-bottom:14px;
+}
+.rb-eyebrow::before{content:'';width:20px;height:2px;background:var(--red);border-radius:2px}
+.rb-hero h1{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:clamp(40px,8vw,64px);
+  line-height:.95;letter-spacing:.02em;color:#fff;margin-bottom:14px;
+}
+.rb-hero h1 em{color:var(--red);font-style:normal}
+.rb-hero-sub{font-size:13.5px;line-height:1.7;font-weight:300;color:rgba(226,226,242,.65);max-width:600px}
+.rb-hero-note{
+  margin-top:18px;font-size:11.5px;color:var(--mu);
+  border-left:2px solid var(--red);padding-left:12px;max-width:600px;line-height:1.6;
+}
+
+/* ---------- SEARCH ---------- */
+.rb-search-wrap{padding:16px 20px;border-bottom:1px solid var(--b2);position:sticky;top:calc(var(--nav-h) + var(--safe-top));z-index:100;background:rgba(8,8,15,.96);backdrop-filter:blur(20px)}
+.rb-search{
+  display:flex;align-items:center;gap:10px;
+  background:var(--s1);border:1px solid var(--b);border-radius:10px;
+  padding:11px 14px;max-width:520px;transition:border-color .15s;
+}
+.rb-search:focus-within{border-color:var(--red-edge)}
+.rb-search svg{flex-shrink:0;color:var(--mu)}
+.rb-search input{
+  flex:1;background:none;border:none;outline:none;color:var(--tx);
+  font-family:'Inter',sans-serif;font-size:13.5px;
+}
+.rb-search input::placeholder{color:var(--mu)}
+.rb-search-count{font-size:11px;color:var(--mu);font-family:'JetBrains Mono',monospace;white-space:nowrap}
+
+/* ---------- LAYOUT ---------- */
+.rb-layout{display:flex;align-items:flex-start;max-width:1240px;margin:0 auto;padding:28px 20px 100px;gap:32px}
+.rb-toc{
+  position:sticky;top:calc(var(--nav-h) + var(--safe-top) + 76px);
+  width:220px;flex-shrink:0;
+  max-height:calc(100vh - var(--nav-h) - var(--safe-top) - 100px);
+  overflow-y:auto;
+}
+.rb-toc-title{font-size:10px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--mu);margin-bottom:10px;padding-left:12px}
+.rb-toc a{
+  display:block;padding:7px 12px;font-size:12.5px;color:var(--tx2);text-decoration:none;
+  border-left:2px solid transparent;border-radius:0 6px 6px 0;transition:color .15s,border-color .15s,background .15s;
+}
+.rb-toc a:hover{color:var(--tx);background:rgba(255,255,255,.03)}
+.rb-toc a.active{color:#fff;border-color:var(--red);background:var(--red-dim);font-weight:500}
+
+.rb-content{flex:1;min-width:0}
+
+/* ---------- SECTIONS ---------- */
+.rb-section{margin-bottom:44px;scroll-margin-top:calc(var(--nav-h) + var(--safe-top) + 90px)}
+.rb-sec-hd{display:flex;align-items:center;gap:12px;margin-bottom:16px}
+.rb-sec-icon{font-size:20px;line-height:1}
+.rb-sec-title{font-family:'Bebas Neue',sans-serif;font-size:26px;letter-spacing:.03em;color:#fff}
+.rb-sec-rule{flex:1;height:1px;background:var(--b2)}
+.rb-sec-intro{font-size:12.5px;color:var(--mu);line-height:1.7;margin-bottom:16px;max-width:720px}
+
+/* rule / info cards */
+.rb-card{
+  background:var(--s1);border:1px solid var(--b);border-radius:11px;
+  padding:16px 18px;margin-bottom:10px;position:relative;overflow:hidden;
+}
+.rb-card::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--mu2)}
+.rb-card-hd{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:6px}
+.rb-card-num{
+  font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:700;color:var(--mu);
+  background:var(--s3);border:1px solid var(--b);border-radius:4px;padding:2px 7px;flex-shrink:0;
+}
+.rb-card-title{font-size:14px;font-weight:600;color:#fff}
+.rb-card-body{font-size:12.5px;color:var(--tx2);line-height:1.75}
+.rb-card-body ul{margin:6px 0 0 18px}
+.rb-card-body li{margin-bottom:3px}
+.rb-card-body p + p{margin-top:6px}
+.rb-card-body strong{color:var(--tx);font-weight:600}
+
+/* punishment escalation chips */
+.rb-punish{display:flex;align-items:center;gap:5px;flex-wrap:wrap;margin-top:10px}
+.rb-chip{
+  font-family:'JetBrains Mono',monospace;font-size:9.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;
+  padding:3px 8px;border-radius:4px;white-space:nowrap;
+}
+.rb-chip.warn{background:var(--am-d);color:var(--am);border:1px solid rgba(245,166,35,.18)}
+.rb-chip.mute{background:var(--bl-d);color:var(--bl);border:1px solid rgba(91,156,246,.18)}
+.rb-chip.kick{background:rgba(226,226,242,.08);color:var(--tx2);border:1px solid var(--b)}
+.rb-chip.ban{background:var(--red-dim);color:var(--red);border:1px solid var(--red-mid)}
+.rb-chip.perm{background:var(--red-mid);color:#fff;border:1px solid var(--red)}
+.rb-arrow{color:var(--mu2);font-size:10px}
+
+/* colored left-edge variants by category */
+.rb-card.c-danger::before{background:var(--red)}
+.rb-card.c-warn::before{background:var(--am)}
+.rb-card.c-info::before{background:var(--bl)}
+.rb-card.c-ok::before{background:var(--gr)}
+
+/* info / note callouts */
+.rb-note{
+  background:var(--s1);border:1px solid var(--b);border-left:3px solid var(--am);
+  border-radius:0 10px 10px 0;padding:12px 16px;font-size:12px;color:var(--mu);line-height:1.7;margin-bottom:14px;
+}
+.rb-note strong{color:var(--tx2)}
+
+/* awards grid */
+.rb-award-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+@media(max-width:640px){.rb-award-grid{grid-template-columns:1fr}}
+.rb-award{background:var(--s1);border:1px solid var(--b);border-radius:10px;padding:13px 16px}
+.rb-award-name{display:flex;align-items:center;gap:8px;font-family:'Bebas Neue',sans-serif;font-size:15px;letter-spacing:.04em;color:#fff;margin-bottom:4px}
+.rb-award-desc{font-size:11.5px;color:var(--mu);line-height:1.6}
+
+/* updates timeline */
+.rb-update{
+  background:var(--s1);border:1px solid var(--b);border-radius:11px;padding:16px 18px;margin-bottom:12px;position:relative;
+}
+.rb-update-date{
+  font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:700;letter-spacing:.06em;
+  color:var(--red);text-transform:uppercase;margin-bottom:6px;display:block;
+}
+.rb-update-title{font-size:14px;font-weight:600;color:#fff;margin-bottom:6px}
+.rb-update-body{font-size:12.5px;color:var(--tx2);line-height:1.75}
+.rb-update-body ul{margin:6px 0 0 18px}
+.rb-update-body li{margin-bottom:3px}
+
+/* links list */
+.rb-link-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+@media(max-width:640px){.rb-link-grid{grid-template-columns:1fr}}
+.rb-link{
+  display:flex;align-items:center;gap:8px;background:var(--s1);border:1px solid var(--b);
+  border-radius:8px;padding:10px 13px;font-family:'JetBrains Mono',monospace;font-size:11.5px;color:var(--tx2);
+  text-decoration:none;transition:border-color .15s,color .15s;word-break:break-all;
+}
+.rb-link:hover{border-color:rgba(255,255,255,.15);color:var(--tx)}
+.rb-link-tag{font-size:9px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--gr);background:var(--gr-d);border-radius:3px;padding:2px 6px;flex-shrink:0;font-family:'Inter',sans-serif}
+
+/* hidden by search filter */
+.rb-hidden{display:none!important}
+.rb-noresults{display:none;text-align:center;padding:60px 20px;color:var(--mu);font-size:13px}
+.rb-noresults.show{display:block}
+
+/* mobile */
+.rb-toc-toggle{display:none}
+@media(max-width:900px){
+  .rb-layout{flex-direction:column;gap:0}
+  .rb-toc{
+    position:relative;top:0;width:100%;max-height:none;
+    margin-bottom:20px;border:1px solid var(--b);border-radius:11px;background:var(--s1);
+    overflow:hidden;
+  }
+  .rb-toc-toggle{
+    display:flex;align-items:center;justify-content:space-between;width:100%;
+    padding:13px 16px;background:none;border:none;color:var(--tx);cursor:pointer;
+    font-family:'Inter',sans-serif;font-size:13px;font-weight:600;
+  }
+  .rb-toc-list{display:none;padding:0 8px 10px;max-height:50vh;overflow-y:auto}
+  .rb-toc-list.open{display:block}
+  .rb-toc-title{display:none}
+  .rb-toc-chevron{transition:transform .2s}
+  .rb-toc-chevron.open{transform:rotate(180deg)}
+}
+@media(max-width:640px){
+  .rb-hero{padding-top:calc(var(--nav-h) + var(--safe-top) + 28px)}
+  .nav-brand{font-size:15px}
+}
+
+/* footer */
+footer{border-top:1px solid var(--b2);padding:26px 20px calc(26px + var(--safe-bottom));display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;max-width:1240px;margin:0 auto}
+.footer-copy{font-size:11px;color:var(--mu2);font-family:'JetBrains Mono',monospace}
+.footer-back{font-size:11px;color:var(--mu2);text-decoration:none;transition:color .18s}
+.footer-back:hover{color:var(--mu)}
+
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-logo">
+    <span class="nav-brand">RP<em>L</em></span>
+    <span class="nav-pill">Rulebook</span>
+  </a>
+  <a href="index.html" class="nav-back">← Back to site</a>
+</nav>
+
+<!-- ============================================================
+     HERO
+     ============================================================ -->
+<header class="rb-hero">
+  <div class="rb-eyebrow">RPL · Official Documentation</div>
+  <h1>RPL <em>Rulebook</em></h1>
+  <p class="rb-hero-sub">The complete, current set of rules governing RPL gameplay, conduct, franchise ownership, and league procedure. All players are expected to know and follow these rules. Staff and referees have final say on all rulings.</p>
+  <p class="rb-hero-note">Fundamental rules such as the out-of-bounds rule are considered implicitly understood and are enforced even if not explicitly listed here.</p>
+</header>
+
+<!-- ============================================================
+     SEARCH
+     ============================================================ -->
+<div class="rb-search-wrap">
+  <div class="rb-search">
+    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+    <input id="rb-search-input" type="text" placeholder="Search rules… (e.g. walk-on, salary cap, technical)">
+    <span class="rb-search-count" id="rb-search-count"></span>
+  </div>
+</div>
+
+<div class="rb-layout">
+
+  <!-- ============================================================
+       TABLE OF CONTENTS — edit hrefs/text if you add or rename sections
+       ============================================================ -->
+  <aside class="rb-toc">
+    <button class="rb-toc-toggle" id="rb-toc-toggle">
+      <span>Jump to section</span>
+      <svg class="rb-toc-chevron" id="rb-toc-chevron" width="12" height="12" viewBox="0 0 9 5"><path fill="currentColor" d="M0 0l4.5 5L9 0z"/></svg>
+    </button>
+    <div class="rb-toc-list" id="rb-toc-list">
+      <div class="rb-toc-title">On this page</div>
+      <a href="#approved-links">Approved Links</a>
+      <a href="#general-rules">General Server Rules</a>
+      <a href="#gameplay">Gameplay Rules</a>
+      <a href="#realism">Gameplay Realism</a>
+      <a href="#defense">Defensive Rules</a>
+      <a href="#fouls">Fouls &amp; Free Throws</a>
+      <a href="#three-point">3PA Rules</a>
+      <a href="#walkons">Walk-On Rules</a>
+      <a href="#postseason">Postseason Rules</a>
+      <a href="#rankings">Power Rankings</a>
+      <a href="#anti-duck">Anti-Duck Rule</a>
+      <a href="#franchise-owner">Franchise Owner Rules</a>
+      <a href="#salary-cap">Salary Cap Rules</a>
+      <a href="#referees">Referee Rules</a>
+      <a href="#anti-hostage">Anti-Hostage Rule</a>
+      <a href="#anti-gatekeeping">Anti-Gatekeeping</a>
+      <a href="#doj-pc">DOJ / PC Checks</a>
+      <a href="#trading">Team Trading / Transfers</a>
+      <a href="#awards">Awards</a>
+      <a href="#staff">Staff Rules</a>
+      <a href="#additional">Additional Rules</a>
+      <a href="#updates">Updates &amp; Amendments</a>
+    </div>
+  </aside>
+
+  <!-- ============================================================
+       CONTENT
+       Each block below is a .rb-section. To add a new rule, copy an
+       existing .rb-card and edit the text. To add a new section,
+       copy an entire .rb-section block and add a matching TOC link.
+       ============================================================ -->
+  <main class="rb-content" id="rb-content">
+
+    <!-- APPROVED LINKS -->
+    <section class="rb-section" id="approved-links">
+      <div class="rb-sec-hd"><span class="rb-sec-icon">🔗</span><h2 class="rb-sec-title">Approved Links</h2><div class="rb-sec-rule"></div></div>
+      <p class="rb-sec-intro">Only the following links are permitted in this server. Any link not on this list may be removed, and users who post harmful, fraudulent, or malicious links will be permanently banned.</p>
+      <div class="rb-link-grid">
+        <a class="rb-link" href="https://www.roblox.com/" target="_blank"><span class="rb-link-tag">Roblox</span>roblox.com</a>
+        <a class="rb-link" href="https://web.roblox.com/" target="_blank"><span class="rb-link-tag">Roblox</span>web.roblox.com</a>
+        <a class="rb-link" href="https://medal.tv/" target="_blank"><span class="rb-link-tag">Proof</span>medal.tv</a>
+        <a class="rb-link" href="https://streamable.com/" target="_blank"><span class="rb-link-tag">Proof</span>streamable.com</a>
+        <a class="rb-link" href="https://www.youtube.com/" target="_blank"><span class="rb-link-tag">Proof</span>youtube.com</a>
+        <a class="rb-link" href="https://youtu.be/" target="_blank"><span class="rb-link-tag">Proof</span>youtu.be</a>
+      </div>
+    </section>
+
+    <!-- GENERAL SERVER RULES -->
+    <section class="rb-section" id="general-rules">
+      <div class="rb-sec-hd"><span class="rb-sec-icon">📜</span><h2 class="rb-sec-title">General Server Rules</h2><div class="rb-sec-rule"></div></div>
+      <p class="rb-sec-intro">Depending on the nature or severity of an infraction, punishments may be escalated. Repeated violations or multiple rule breaks may result in an immediate ban.</p>
+
+      <div class="rb-card c-danger">
+        <div class="rb-card-hd"><span class="rb-card-num">RULE 1</span><span class="rb-card-title">🔞 NSFW</span></div>
+        <div class="rb-card-body">No NSFW content of any kind (links, images, videos, or streams).</div>
+        <div class="rb-punish"><span class="rb-chip mute">Mute</span><span class="rb-arrow">→</span><span class="rb-chip kick">Kick</span><span class="rb-arrow">→</span><span class="rb-chip ban">Ban</span></div>
+      </div>
+
+      <div class="rb-card c-warn">
+        <div class="rb-card-hd"><span class="rb-card-num">RULE 2</span><span class="rb-card-title">💬 Spamming</span></div>
+        <div class="rb-card-body">No spamming or raid behavior. Spamming results in an automatic suspension with no warnings and no exceptions.</div>
+        <div class="rb-punish"><span class="rb-chip mute">Mute</span><span class="rb-arrow">→</span><span class="rb-chip kick">Kick</span></div>
+      </div>
+
+      <div class="rb-card c-danger">
+        <div class="rb-card-hd"><span class="rb-card-num">RULE 3</span><span class="rb-card-title">💻 Hacking / Cheating</span></div>
+        <div class="rb-card-body">Do not discuss, promote, or use hacks or cheats.</div>
+        <div class="rb-punish"><span class="rb-chip mute">Mute</span><span class="rb-arrow">→</span><span class="rb-chip kick">Kick</span><span class="rb-arrow">→</span><span class="rb-chip ban">Ban</span></div>
+      </div>
+
+      <div class="rb-card c-warn">
+        <div class="rb-card-hd"><span class="rb-card-num">RULE 4</span><span class="rb-card-title">📢 Advertising</span></div>
+        <div class="rb-card-body">No advertising, self-promotion, or general solicitation of any kind.</div>
+        <div class="rb-punish"><span class="rb-chip warn">Warn</span><span class="rb-arrow">→</span><span class="rb-chip mute">Mute</span></div>
+      </div>
+
+      <div class="rb-card c-warn">
+        <div class="rb-card-hd"><span class="rb-card-num">RULE 5</span><span class="rb-card-title">🚫 Racism</span></div>
+        <div class="rb-card-body">No racism or discriminatory behavior of any kind.</div>
+        <div class="rb-punish"><span class="rb-chip warn">Warn</span><span class="rb-arrow">→</span><span class="rb-chip mute">Mute</span><span class="rb-arrow">→</span><span class="rb-chip kick">Kick</span></div>
+      </div>
+
+      <div class="rb-card c-danger">
+        <div class="rb-card-hd"><span class="rb-card-num">RULE 6</span><span class="rb-card-title">📍 Doxxing / Harmful Links</span></div>
+        <div class="rb-card-body">No doxxing or harmful links, even if fake.</div>
+        <div class="rb-punish"><span class="rb-chip kick">Kick</span><span class="rb-arrow">→</span><span class="rb-chip ban">Ban</span></div>
+      </div>
+
+      <div class="rb-card c-warn">
+        <div class="rb-card-hd"><span class="rb-card-num">RULE 7</span><span class="rb-card-title">💀 Death Mocking</span></div>
+        <div class="rb-card-body">Mocking someone's death or critical condition is prohibited.</div>
+        <div class="rb-punish"><span class="rb-chip warn">Warn</span><span class="rb-arrow">→</span><span class="rb-chip mute">Mute</span><span class="rb-arrow">→</span><span class="rb-chip kick">Kick</span><span class="rb-arrow">→</span><span class="rb-chip ban">Ban</span></div>
+      </div>
+
+      <div class="rb-card c-warn">
+        <div class="rb-card-hd"><span class="rb-card-num">RULE 8</span><span class="rb-card-title">👮 Respect Staff</span></div>
+        <div class="rb-card-body">Respect staff at all times. Avoid harassment, toxicity, and attempts to talk staff out of their decisions. Staff always have the final say.</div>
+        <div class="rb-punish"><span class="rb-chip warn">Warn</span><span class="rb-arrow">→</span><span class="rb-chip mute">Mute</span><span class="rb-arrow">→</span><span class="rb-chip kick">Kick</span></div>
+      </div>
+
+      <div class="rb-card c-danger">
+        <div class="rb-card-hd"><span class="rb-card-num">RULE 9</span><span class="rb-card-title">🔞 NSFW (Duplicate Enforcement)</span></div>
+        <div class="rb-card-body">Strictly no NSFW in any channel or context.</div>
+        <div class="rb-punish"><span class="rb-chip mute">Mute</span><span class="rb-arrow">→</span><span class="rb-chip kick">Kick</span><span class="rb-arrow">→</span><span class="rb-chip ban">Ban</span></div>
+      </div>
+
+      <div class="rb-card c-danger">
+        <div class="rb-card-hd"><span class="rb-card-num">RULE 10</span><span class="rb-card-title">💰 Selling / Trading</span></div>
+        <div class="rb-card-body">Any form of selling or trading on the server is strictly prohibited.</div>
+        <div class="rb-punish"><span class="rb-chip perm">Permanent Ban</span></div>
+      </div>
+
+      <div class="rb-card c-danger">
+        <div class="rb-card-hd"><span class="rb-card-num">RULE 11</span><span class="rb-card-title">🔓 Leaking Personal Info</span></div>
+        <div class="rb-card-body">Leaking personal information or photos of anyone — even if fake — is not allowed. Sharing or leaking someone's photos without permission violates Discord's Community Guidelines and may result in your Discord account being suspended.</div>
+        <div class="rb-punish"><span class="rb-chip mute">Mute</span><span class="rb-arrow">→</span><span class="rb-chip kick">Kick</span><span class="rb-arrow">→</span><span class="rb-chip ban">Ban</span></div>
+      </div>
+    </section>
+
+    <!-- GAMEPLAY RULES -->
+    <section class="rb-section" id="gameplay">
+      <div class="rb-sec-hd"><span class="rb-sec-icon">🏀</span><h2 class="rb-sec-title">Gameplay Rules</h2><div class="rb-sec-rule"></div></div>
+
+      <div class="rb-card">
+        <div class="rb-card-hd"><span class="rb-card-title">Quarter Length</span></div>
+        <div class="rb-card-body">6-minute quarters.</div>
+      </div>
+
+      <div class="rb-card">
+        <div class="rb-card-hd"><span class="rb-card-title">Team Requirements</span></div>
+        <div class="rb-card-body">
+          <ul>
+            <li>Minimum 10 rostered players per team</li>
+            <li>4v4 or 5v5 only — 2v2 games are no longer allowed</li>
+            <li>Game format must remain consistent — if both teams agree to 4v4 before the game, it stays 4v4 for the entire game. Switching formats mid-game to gain an advantage will result in staff action</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="rb-card c-warn">
+        <div class="rb-card-hd"><span class="rb-card-title">Forfeit Timer</span></div>
+        <div class="rb-card-body">
+          <ul>
+            <li>A 300-second (5-minute) forfeit timer begins if a team is missing a required player, is inactive, or is AFK at the scheduled start or during gameplay</li>
+            <li>Teams must resolve the issue before the timer expires or face penalties including loss of possession, game forfeit, or further disciplinary action</li>
+            <li>If a player has a valid reason for going AFK, the forfeit timer will <strong>not</strong> start — all AFK situations are subject to review and abuse will result in penalties</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="rb-card">
+        <div class="rb-card-hd"><span class="rb-card-title">Inbounds</span></div>
+        <div class="rb-card-body">
+          <ul>
+            <li>10 seconds to cross half-court</li>
+            <li>5-second inbound timer (enforced in-game)</li>
+            <li>No self-inbounding</li>
+            <li>Over-and-back is not allowed (crossing half-court then returning)</li>
+            <li>To advance the ball, you must inbound it; calling a timeout during an active play to avoid a double turnover will count as a timeout used</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="rb-card">
+        <div class="rb-card-hd"><span class="rb-card-title">Substitutions</span></div>
+        <div class="rb-card-body">
+          <ul>
+            <li>Substitutions are permitted during any dead ball situation</li>
+            <li>Calling for a substitution during active play results in a timeout deduction</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="rb-card">
+        <div class="rb-card-hd"><span class="rb-card-title">Technicals</span></div>
+        <div class="rb-card-body">Technical fouls may be assessed at a referee's discretion. A technical foul results in 1 free throw.</div>
+      </div>
+    </section>
+
+    <!-- GAMEPLAY REALISM RULES -->
+    <section class="rb-section" id="realism">
+      <div class="rb-sec-hd"><span class="rb-sec-icon">🎯</span><h2 class="rb-sec-title">Gameplay Realism Rules</h2><div class="rb-sec-rule"></div></div>
+      <p class="rb-sec-intro">You must play realistically to your assigned player. Watch game film and understand how your actual player plays. Violation of realism rules will result in penalties.</p>
+
+      <div class="rb-card">
+        <div class="rb-card-hd"><span class="rb-card-title">Driving Rules</span></div>
+        <div class="rb-card-body">
+          <p>A drive is only considered a drive when:</p>
+          <ul>
+            <li>You take a layup or floater</li>
+            <li>You are inside the EBL zone</li>
+            <li>You use 45 power or below</li>
+            <li>You are directly attacking the rim</li>
+          </ul>
+          <p>If the shot is not a layup or floater, it is not a drive. Leaning or fading near the rim may count as a drive depending on the shot attempt.</p>
+        </div>
+      </div>
+
+      <div class="rb-card">
+        <div class="rb-card-hd"><span class="rb-card-title">Jumpers &amp; Fades</span></div>
+        <div class="rb-card-body">
+          <ul>
+            <li>Fades from anywhere on the court — including near or inside the paint — are considered jump shots</li>
+            <li>Fading in 45 power range is still a jumper</li>
+            <li>Midranges and 70-power shots are allowed and encouraged realistically</li>
+            <li>Spamming midranges does not mean you are playing realistically — you can still violate realism rules this way</li>
+            <li>The only exception for heavy midrange spamming is for players modeled after characters like Kevin Durant — and even then, you must remain realistic</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="rb-card c-warn">
+        <div class="rb-card-hd"><span class="rb-card-title">Stepback Rule</span></div>
+        <div class="rb-card-body">Using stepbacks to gain an unintended advantage (e.g., speed boosting forward) or spamming stepbacks is strictly prohibited.</div>
+        <div class="rb-punish"><span class="rb-chip warn">Technical foul</span><span class="rb-arrow">→</span><span class="rb-chip kick">Further discipline (extreme cases)</span></div>
+      </div>
+
+      <div class="rb-card">
+        <div class="rb-card-hd"><span class="rb-card-title">EBL Rule</span></div>
+        <div class="rb-card-body">
+          <ul>
+            <li>EBL is only allowed inside the paint, strictly for eurosteps</li>
+            <li>You cannot EBL or hop over other players outside the paint</li>
+            <li>Referees are required to step in immediately if this occurs</li>
+            <li>Any use of EBL outside the paint will be called a violation</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="rb-card">
+        <div class="rb-card-hd"><span class="rb-card-title">Screening Rules</span></div>
+        <div class="rb-card-body">
+          <p><strong>✅ Allowed:</strong> On-ball screens only (screening the defender guarding the ball handler)</p>
+          <p><strong>❌ Not Allowed:</strong></p>
+          <ul>
+            <li>Screening on defense</li>
+            <li>Off-ball screens to get yourself open</li>
+            <li>Any other type of screen — violations may result in a turnover or further penalties</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- DEFENSIVE RULES -->
+    <section class="rb-section" id="defense">
+      <div class="rb-sec-hd"><span class="rb-sec-icon">🛡️</span><h2 class="rb-sec-title">Defensive Rules</h2><div class="rb-sec-rule"></div></div>
+      <div class="rb-card">
+        <div class="rb-card-body">
+          <ul>
+            <li>Pressing is allowed below 1 minute only</li>
+            <li>Pressing on an inbound is allowed only during the allotted pressing window</li>
+          </ul>
+        </div>
+      </div>
+      <div class="rb-card c-danger">
+        <div class="rb-card-hd"><span class="rb-card-title">Strictly Prohibited at All Times</span></div>
+        <div class="rb-card-body">
+          <ul>
+            <li>Head riding</li>
+            <li>Boosting</li>
+            <li>Jumping on heads</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- FOUL & FREE THROW SYSTEM -->
+    <section class="rb-section" id="fouls">
+      <div class="rb-sec-hd"><span class="rb-sec-icon">⚖️</span><h2 class="rb-sec-title">Foul &amp; Free Throw System</h2><div class="rb-sec-rule"></div></div>
+
+      <div class="rb-card">
+        <div class="rb-card-hd"><span class="rb-card-title">Fouls Are Determined Based on Stuns</span></div>
+        <div class="rb-card-body">
+          <ul>
+            <li>If a player is stunned while shooting → shooting foul</li>
+            <li>If a defender is stunned while playing defense → offensive foul</li>
+            <li>Technical foul → 1 free throw</li>
+            <li>And-1 (fouled while shooting and still makes the shot) → 1 free throw</li>
+          </ul>
+          <p>Refs will enforce these rules strictly to keep games fair and consistent.</p>
+        </div>
+      </div>
+
+      <div class="rb-card c-info">
+        <div class="rb-card-hd"><span class="rb-card-title">Offensive Lag Rule</span></div>
+        <div class="rb-card-body">
+          <ul>
+            <li>If a player experiences significant lag while on offense that directly impacts the play, a lag warning may be issued and the play results in an automatic redo</li>
+            <li>This call is referee-only — players may not request or argue it</li>
+            <li>Repeated lag incidents may lead to further review or corrective action</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3PA RULES -->
+    <section class="rb-section" id="three-point">
+      <div class="rb-sec-hd"><span class="rb-sec-icon">🧾</span><h2 class="rb-sec-title">Three-Point Attempt (3PA) Rules</h2><div class="rb-sec-rule"></div></div>
+      <div class="rb-card">
+        <div class="rb-card-body">
+          <ul>
+            <li>3PA limits are based strictly on total 3PA from Basketball Reference</li>
+            <li>Per-36, Per-48, or G-League stats will not be used</li>
+            <li>Walk-on stats do not count toward a player's official statistics</li>
+            <li>Referees will monitor and track 3PA compliance during games</li>
+            <li>Players must follow their assigned 3PA limit — no exceptions</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- WALK-ON RULES -->
+    <section class="rb-section" id="walkons">
+      <div class="rb-sec-hd"><span class="rb-sec-icon">👥</span><h2 class="rb-sec-title">Walk-On Rules</h2><div class="rb-sec-rule"></div></div>
+      <p class="rb-sec-intro">Walk-ons are players who are not formally rostered on your team.</p>
+
+      <div class="rb-card">
+        <div class="rb-card-hd"><span class="rb-card-title">Regular Season Limits</span></div>
+        <div class="rb-card-body">
+          <ul>
+            <li>5v5 → 2 walk-ons</li>
+            <li>4v4 → 1 walk-on</li>
+            <li>3v3 → 1 walk-on</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="rb-card c-danger">
+        <div class="rb-card-hd"><span class="rb-card-title">Postseason</span></div>
+        <div class="rb-card-body">
+          <ul>
+            <li>❌ Walk-ons are not allowed at any point</li>
+            <li>Fielding walk-ons during postseason = automatic loss</li>
+            <li>A team made up entirely of walk-ons, or with only one rostered player, will be auto-forfeited</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="rb-note"><strong>Note:</strong> Nobody has the authority to authorize extra walk-ons. Anything above the limit is an automatic forfeit. Additional disciplinary action may apply at staff discretion.</div>
+    </section>
+
+    <!-- POSTSEASON RULES -->
+    <section class="rb-section" id="postseason">
+      <div class="rb-sec-hd"><span class="rb-sec-icon">🏆</span><h2 class="rb-sec-title">Postseason Rules</h2><div class="rb-sec-rule"></div></div>
+      <div class="rb-card">
+        <div class="rb-card-body">
+          <ul>
+            <li>Minimum 7 games played required to be eligible for postseason</li>
+            <li>Play-in games must be completed before playoffs begin</li>
+            <li>Inactive teams may be auto-forfeited</li>
+            <li>To qualify for playoffs, awards, and rankings, a team must have played 70–80% of the league at least once</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- POWER RANKINGS -->
+    <section class="rb-section" id="rankings">
+      <div class="rb-sec-hd"><span class="rb-sec-icon">📊</span><h2 class="rb-sec-title">Power Rankings</h2><div class="rb-sec-rule"></div></div>
+      <p class="rb-sec-intro">Power rankings determine playoff seeding and qualification. A higher ranking means you've faced tougher competition and performed well. A lower ranking means you've mostly played weaker opponents.</p>
+      <div class="rb-card">
+        <div class="rb-card-body">
+          <ul>
+            <li>A team that is 10–0 with a 6.2 power ranking may be ranked lower than a 4–0 team with an 8.2 ranking if the 4–0 team played stronger competition</li>
+            <li>Teams that duck real competition will receive a weak power ranking regardless of record</li>
+            <li>Strong competition matters more than farming weak teams</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- ANTI-DUCK RULE -->
+    <section class="rb-section" id="anti-duck">
+      <div class="rb-sec-hd"><span class="rb-sec-icon">🚫</span><h2 class="rb-sec-title">Anti-Duck Rule</h2><div class="rb-sec-rule"></div></div>
+      <p class="rb-sec-intro">Every team must play at least one game against every eligible team during the season. This is tracked and affects playoff eligibility.</p>
+
+      <div class="rb-card">
+        <div class="rb-card-hd"><span class="rb-card-title">What Counts as a Reasonable Challenge</span></div>
+        <div class="rb-card-body">
+          <ul>
+            <li>Both teams have a minimum of 3 players ready</li>
+            <li>Teams are in the same conference</li>
+            <li>The challenge is proposed within active league hours</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="rb-card c-warn">
+        <div class="rb-card-hd"><span class="rb-card-title">A Team Is Considered Ducking If They</span></div>
+        <div class="rb-card-body">
+          <ul>
+            <li>Decline 3 valid challenges from the same team</li>
+            <li>Avoid a team for 2+ consecutive days while playing other teams</li>
+            <li>Publicly state refusal due to team strength (e.g., "too good" or "not worth it")</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="rb-card c-danger">
+        <div class="rb-card-hd"><span class="rb-card-title">Penalties</span></div>
+        <div class="rb-card-body">
+          <ul>
+            <li><strong>1st Offense</strong> → Warning + forced priority matchup (must accept next challenge from that team)</li>
+            <li><strong>2nd Offense</strong> → Win cap (max wins count for standings until matchup is played)</li>
+            <li><strong>3rd Offense</strong> → Ineligibility for playoffs/events, or a loss added to the record</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="rb-note"><strong>Protection for Weaker Teams:</strong> Teams may request one protected decline per opponent per season. After that, they must play or face a penalty.</div>
+    </section>
+
+    <!-- FRANCHISE OWNER RULES -->
+    <section class="rb-section" id="franchise-owner">
+      <div class="rb-sec-hd"><span class="rb-sec-icon">👔</span><h2 class="rb-sec-title">Franchise Owner (FO) Rules</h2><div class="rb-sec-rule"></div></div>
+
+      <div class="rb-card c-ok">
+        <div class="rb-card-hd"><span class="rb-card-title">Eligibility — You Must</span></div>
+        <div class="rb-card-body">
+          <ul>
+            <li>Not be a new member</li>
+            <li>Have prior experience owning, co-owning, or running a franchise, team, or league</li>
+            <li>Understand how the league works</li>
+            <li>Communicate clearly and professionally</li>
+            <li>Be active, reliable, and easy to reach</li>
+            <li>Have a clean record with no recent rule violations</li>
+            <li>Receive explicit approval from staff</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="rb-card c-danger">
+        <div class="rb-card-hd"><span class="rb-card-title">You Are NOT Eligible If</span></div>
+        <div class="rb-card-body">
+          <ul>
+            <li>You are a new member</li>
+            <li>You have no prior ownership/franchise experience</li>
+            <li>You are inactive, unreliable, or hard to contact</li>
+            <li>You have a history of breaking rules or causing problems</li>
+            <li>Staff does not approve you</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="rb-card">
+        <div class="rb-card-hd"><span class="rb-card-title">Team Eligibility — Salary Cap Minimums</span></div>
+        <div class="rb-card-body">
+          <ul>
+            <li>Playoff teams: owner must have $10M–$20M+ salary cap</li>
+            <li>Play-in &amp; eliminated teams: $2M–$8M+ salary cap</li>
+          </ul>
+          <p>Meeting these requirements does not guarantee approval — final decisions are made by staff.</p>
+        </div>
+      </div>
+
+      <div class="rb-card">
+        <div class="rb-card-hd"><span class="rb-card-title">FO Responsibilities</span></div>
+        <div class="rb-card-body">
+          <ul>
+            <li>Cannot abandon or ditch your team at any point during the season</li>
+            <li>If stepping down, you must transfer the FO role to a willing and eligible player on your current roster</li>
+            <li>Leaving the server as an FO = permanent ban</li>
+            <li>Disbanding a team = 2-season FO blacklist (cannot own or manage a team)</li>
+            <li>Leaving mid-season harms not only your team but the entire league</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="rb-card c-danger">
+        <div class="rb-card-hd"><span class="rb-card-title">Team Buying / Selling</span></div>
+        <div class="rb-card-body">Buying, selling, paying for, or transferring team ownership in any way is strictly prohibited. Teams are assigned and managed by league rules only. Any attempt to buy, sell, or trade ownership will result in staff action.</div>
+      </div>
+    </section>
+
+    <!-- SALARY CAP RULES -->
+    <section class="rb-section" id="salary-cap">
+      <div class="rb-sec-hd"><span class="rb-sec-icon">💰</span><h2 class="rb-sec-title">Salary Cap Rules</h2><div class="rb-sec-rule"></div></div>
+
+      <div class="rb-note"><strong>Current cap: $58M.</strong> (Updated from the original $74M cap — see Updates &amp; Amendments below.)</div>
+
+      <div class="rb-card">
+        <div class="rb-card-body">
+          <ul>
+            <li>Teams exceeding the cap must make adjustments immediately</li>
+            <li>Failure to reach compliance within the designated timeframe = entire team suspended</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="rb-card c-warn">
+        <div class="rb-card-hd"><span class="rb-card-title">Coach Exploit Rule</span></div>
+        <div class="rb-card-body">Consistently switching between player and coach roles to manipulate the salary cap will result in player + team suspension. This rule is in place to maintain the integrity of the cap system.</div>
+      </div>
+
+      <div class="rb-card c-danger">
+        <div class="rb-card-hd"><span class="rb-card-title">Coaches Playing</span></div>
+        <div class="rb-card-body">Coaches cannot play in games. If a coach plays, it counts toward the cap and the team is forfeited.</div>
+      </div>
+
+      <div class="rb-card">
+        <div class="rb-card-hd"><span class="rb-card-title">Coaching Staff Limit</span></div>
+        <div class="rb-card-body">Each team may have a maximum of 3 coaching staff members. Extra coaches must be removed before the season or playoffs begin. Violations result in penalties decided by staff.</div>
+      </div>
+    </section>
+
+    <!-- REFEREE RULES -->
+    <section class="rb-section" id="referees">
+      <div class="rb-sec-hd"><span class="rb-sec-icon">🧑‍⚖️</span><h2 class="rb-sec-title">Referee Rules</h2><div class="rb-sec-rule"></div></div>
+
+      <div class="rb-card">
+        <div class="rb-card-body">
+          <ul>
+            <li>Every game requires an official referee — no exceptions unless staff specifically approve otherwise</li>
+            <li>No ref = automatic forfeit</li>
+            <li>Only members properly roled in the Referee Department may officiate — anyone caught reffing without the correct role will receive a harsh suspension</li>
+            <li>Team captains and Franchise Owners are responsible for ensuring a referee is available before tipoff</li>
+            <li>Do not wait until the last second to check</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="rb-card c-danger">
+        <div class="rb-card-hd"><span class="rb-card-title">Referee Abuse</span></div>
+        <div class="rb-card-body">
+          <ul>
+            <li>Any form of abusing, controlling, interfering with, or removing a referee from a game = automatic game void</li>
+            <li>Players cannot manipulate officials in any way</li>
+            <li>If a player kicks, blocks, or disrupts a referee's ability to officiate, the game is immediately voided — no exceptions</li>
+            <li>Additional penalties may apply depending on severity</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- ANTI-HOSTAGE RULE -->
+    <section class="rb-section" id="anti-hostage">
+      <div class="rb-sec-hd"><span class="rb-sec-icon">🔒</span><h2 class="rb-sec-title">Anti-Hostage Rule</h2><div class="rb-sec-rule"></div></div>
+
+      <div class="rb-card">
+        <div class="rb-card-hd"><span class="rb-card-title">A Player Is Considered Hostaged When</span></div>
+        <div class="rb-card-body">
+          <ul>
+            <li>They are not receiving playing time, AND</li>
+            <li>The owner is refusing to trade or release them</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="rb-card">
+        <div class="rb-card-hd"><span class="rb-card-title">Criteria for a Hostage Request</span></div>
+        <div class="rb-card-body">
+          <ul>
+            <li>You must provide evidence of your signing date</li>
+            <li>You must explain a valid reason why you haven't played ("I don't like how things are going" is not valid)</li>
+            <li>If you are a veteran, include your stats — owners may be quizzed on your activity</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="rb-card">
+        <div class="rb-card-hd"><span class="rb-card-title">Request Requirements</span></div>
+        <div class="rb-card-body">
+          <ul>
+            <li>Must be approved by Commissioners/Executives</li>
+            <li>One-time only per player</li>
+            <li>Must be submitted before All-Star Week</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="rb-card c-danger">
+        <div class="rb-card-hd"><span class="rb-card-title">If a Player Is Found to Be Hostaged, the League May</span></div>
+        <div class="rb-card-body">
+          <ul>
+            <li>Force a trade or release</li>
+            <li>Replace the Franchise Owner</li>
+            <li>Suspend players involved</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- ANTI-GATEKEEPING -->
+    <section class="rb-section" id="anti-gatekeeping">
+      <div class="rb-sec-hd"><span class="rb-sec-icon">🚫</span><h2 class="rb-sec-title">Anti-Gatekeeping Rule</h2><div class="rb-sec-rule"></div></div>
+      <div class="rb-card">
+        <div class="rb-card-body">No player or Franchise Owner may gatekeep a team or deny other players fair access or opportunities. Teams must be actively managed and competitive — not locked down for personal gain.</div>
+        <div class="rb-punish"><span class="rb-chip kick">Removal from team / FO role</span><span class="rb-arrow">→</span><span class="rb-chip ban">Suspension from league</span></div>
+      </div>
+    </section>
+
+    <!-- DOJ / PC CHECK RULES -->
+    <section class="rb-section" id="doj-pc">
+      <div class="rb-sec-hd"><span class="rb-sec-icon">⚖️</span><h2 class="rb-sec-title">DOJ / PC Check Rules</h2><div class="rb-sec-rule"></div></div>
+
+      <div class="rb-card c-warn">
+        <div class="rb-card-hd"><span class="rb-card-title">False Accusations</span></div>
+        <div class="rb-card-body">
+          <ul>
+            <li>Do not falsely accuse players of hacking</li>
+            <li>If a player has already been PC checked and cleared, stop calling them a hacker unless you have new proof</li>
+            <li>Repeated false accusations, trolling, or starting rumors can result in a suspension</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="rb-card">
+        <div class="rb-card-hd"><span class="rb-card-title">How to Report</span></div>
+        <div class="rb-card-body">
+          <ul>
+            <li>DM @infusedmarbles if you genuinely suspect someone is cheating</li>
+            <li>Do not spam staff or ping people randomly</li>
+            <li>Reports must include a real reason — not just because you're upset or guessing</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="rb-card">
+        <div class="rb-card-hd"><span class="rb-card-title">Player Rights</span></div>
+        <div class="rb-card-body">Every player is allowed 1 PC check request — for real reports only. Using it to troll, waste time, or falsely accuse = punishment.</div>
+      </div>
+
+      <div class="rb-card">
+        <div class="rb-card-hd"><span class="rb-card-title">After a PC Check</span></div>
+        <div class="rb-card-body">
+          <ul>
+            <li>If a player passes → matter is closed</li>
+            <li>If a player fails → they receive one chance to remove all cheats and pass a second check (conducted the next day or when staff approves)</li>
+            <li>If a player fails the second check → they are suspended; return may only be possible through bail if applicable</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="rb-card c-danger">
+        <div class="rb-card-hd"><span class="rb-card-title">Cheat Data Rule</span></div>
+        <div class="rb-card-body">Xeno app data or any executor app data found on a player's device counts as a violation. These folders may contain script or cheat-related files and will be treated seriously.</div>
+      </div>
+    </section>
+
+    <!-- TEAM TRADING / TRANSFERS -->
+    <section class="rb-section" id="trading">
+      <div class="rb-sec-hd"><span class="rb-sec-icon">🔄</span><h2 class="rb-sec-title">Team Trading / Transfers</h2><div class="rb-sec-rule"></div></div>
+
+      <div class="rb-card c-danger">
+        <div class="rb-card-body">Swapping, selling, buying, transferring roster spots, or using alternate accounts to move a player between teams is strictly prohibited unless you have explicit prior approval from staff.</div>
+      </div>
+
+      <div class="rb-card">
+        <div class="rb-card-body">
+          <ul>
+            <li>Any player found trading teams will be suspended immediately pending investigation</li>
+            <li>Additional discipline (temporary or permanent ban) may follow depending on severity and intent</li>
+            <li>If you believe a team transfer is necessary, submit a request to staff before making any change</li>
+            <li>Unilateral or back-channel trades will not be tolerated</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="rb-card">
+        <div class="rb-card-hd"><span class="rb-card-title">To Report Suspected Trading</span></div>
+        <div class="rb-card-body">DM a staff member or use the report channel with clear evidence (screenshots, timestamps, account names). Decisions after investigation are final, but you may submit one appeal once the investigation concludes.</div>
+      </div>
+
+      <div class="rb-note"><strong>No alternate accounts may be used.</strong></div>
+    </section>
+
+    <!-- AWARDS -->
+    <section class="rb-section" id="awards">
+      <div class="rb-sec-hd"><span class="rb-sec-icon">🏅</span><h2 class="rb-sec-title">Awards</h2><div class="rb-sec-rule"></div></div>
+      <p class="rb-sec-intro">All awards are based on consistency, impact, realism, and activity. No stat padding. Players must be active and play enough games. Rule-breaking may disqualify you. During the awards stage, game quality also matters — opponents who are not highly rated will decrease your overall game rating. Coaching achievements are counted toward your coaching career only and will not be added to player achievements, and vice versa.</p>
+
+      <div class="rb-award-grid">
+        <div class="rb-award"><div class="rb-award-name">🏆 MVP</div><div class="rb-award-desc">High, consistent performance; strong overall impact; active majority of season; contributes to winning.</div></div>
+        <div class="rb-award"><div class="rb-award-name">🛡️ DPOY</div><div class="rb-award-desc">Consistent defensive impact every game; strong stops, contests, and presence; no defensive liabilities.</div></div>
+        <div class="rb-award"><div class="rb-award-name">🔥 OPOTY</div><div class="rb-award-desc">Elite offensive production and efficiency; consistent scoring; well-rounded offensive game; playmaking.</div></div>
+        <div class="rb-award"><div class="rb-award-name">🎯 PMOTY</div><div class="rb-award-desc">Elite playmaking and passing; creates opportunities; impacts offense beyond scoring.</div></div>
+        <div class="rb-award"><div class="rb-award-name">🌟 ROTY</div><div class="rb-award-desc">Must be a rookie (first season); strong performance vs. other rookies; active and consistent.</div></div>
+        <div class="rb-award"><div class="rb-award-name">🚀 MIP</div><div class="rb-award-desc">Clear improvement from previous season; noticeable stat and performance jump; consistent throughout.</div></div>
+        <div class="rb-award"><div class="rb-award-name">⚡ 4MOY</div><div class="rb-award-desc">Plays as 4th option/rotational piece; strong impact without being a top option; consistent in role.</div></div>
+        <div class="rb-award"><div class="rb-award-name">🕒 CPOY</div><div class="rb-award-desc">Performs in late-game/close situations; reliable under pressure; contributes to clutch wins.</div></div>
+        <div class="rb-award"><div class="rb-award-name">👑 FMVP</div><div class="rb-award-desc">Best performer in the Finals; high impact across Finals games; active in the series.</div></div>
+        <div class="rb-award"><div class="rb-award-name">👥 TOTY</div><div class="rb-award-desc">Best overall team/lineup; based on performance, chemistry, and success; consistent and impactful players.</div></div>
+      </div>
+    </section>
+
+    <!-- STAFF RULES -->
+    <section class="rb-section" id="staff">
+      <div class="rb-sec-hd"><span class="rb-sec-icon">📢</span><h2 class="rb-sec-title">Staff Rules</h2><div class="rb-sec-rule"></div></div>
+
+      <div class="rb-card c-danger">
+        <div class="rb-card-hd"><span class="rb-card-title">Staff Abuse</span></div>
+        <div class="rb-card-body">Any moderator caught abusing their powers will be immediately stripped of their role — no excuses, no warnings, no exceptions. Staff are expected to uphold the rules, not abuse them.</div>
+      </div>
+
+      <div class="rb-card c-warn">
+        <div class="rb-card-hd"><span class="rb-card-title">Unauthorized Appointments</span></div>
+        <div class="rb-card-body">Any appointment made without prior explicit approval from <strong>@Alex Sarr</strong>, <strong>@Ryan Conwell</strong>, or <strong>@Stephen Curry</strong> is strictly prohibited. Appointments are only valid when one of the three authorized approvers gives permission and the person being appointed has explicitly agreed. Unauthorized appointments result in suspension.</div>
+      </div>
+    </section>
+
+    <!-- ADDITIONAL RULES -->
+    <section class="rb-section" id="additional">
+      <div class="rb-sec-hd"><span class="rb-sec-icon">📌</span><h2 class="rb-sec-title">Additional Rules</h2><div class="rb-sec-rule"></div></div>
+      <div class="rb-card">
+        <div class="rb-card-body">
+          <ul>
+            <li>Staff have final say on all matters</li>
+            <li>Requests are not guaranteed</li>
+            <li>Spam = automatic suspension — no warnings, no exceptions</li>
+            <li>Hacking discussion is prohibited</li>
+            <li>Fake tickets and troll tickets will be punished</li>
+            <li>All support must go through the support server</li>
+            <li>UFFL members are blacklisted</li>
+            <li>Possession of hacks is not welcome in RPL</li>
+            <li>Forfeiting a game before a potential record is broken will result in a suspension</li>
+            <li>Game quality matters for awards — wins against low-rated teams carry less weight</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         UPDATES & AMENDMENTS — newest at top. Copy an .rb-update
+         block to add a new dated announcement.
+         ============================================================ -->
+    <section class="rb-section" id="updates">
+      <div class="rb-sec-hd"><span class="rb-sec-icon">🕘</span><h2 class="rb-sec-title">Updates &amp; Amendments</h2><div class="rb-sec-rule"></div></div>
+      <p class="rb-sec-intro">Dated rule changes and clarifications posted after the base rulebook. These amend or supplement the sections above.</p>
+
+      <div class="rb-update">
+        <span class="rb-update-date">7/22/26 — Walk-On Command Violation</span>
+        <div class="rb-update-title">🚨 :walkon command required</div>
+        <div class="rb-update-body">
+          <p>All players participating as a Walk-On are required to use the official <strong>:walkon</strong> command before entering the game. This command is used to properly track and verify Walk-On players.</p>
+          <p>Failure to use the command while playing as a Walk-On will result in:</p>
+          <ul>
+            <li>1 week suspension from league activities</li>
+            <li>A $10 USD or 1,000 Robux bail option to remove the suspension early</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="rb-update">
+        <span class="rb-update-date">7/18/26 — Salary Cap Update</span>
+        <div class="rb-update-title">Salary cap changed to $58M</div>
+        <div class="rb-update-body"><p>The league salary cap was updated to $58M (previously $74M).</p></div>
+      </div>
+
+      <div class="rb-update">
+        <span class="rb-update-date">7/18/26 — Gameplay Rules Update</span>
+        <div class="rb-update-title">New shot-move restrictions &amp; cooldown</div>
+        <div class="rb-update-body">
+          <ul>
+            <li><strong>❌ Consecutive Hop Steps</strong> — don't chain or spam hop steps; they must be used naturally, not as a repeated scoring move</li>
+            <li><strong>❌ High Arc Floaters</strong> — cannot be spammed; repeated use isn't realistic</li>
+            <li><strong>❌ Euro Step Spam</strong> — still allowed, but must be used occasionally, not every drive</li>
+            <li><strong>❌ Spin Jumpers (180s, 90s, etc.)</strong> — fully restricted, no longer allowed</li>
+            <li><strong>New Move Cooldown</strong> — any allowed signature move (hop step, euro step, high arc floater) may only be used once every 5 offensive possessions; reusing it sooner is a gameplay violation</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="rb-update">
+        <span class="rb-update-date">7/11/26 — Reminder</span>
+        <div class="rb-update-title">"Long lays" are not allowed</div>
+        <div class="rb-update-body">
+          <p>A low-arc shot from midrange — especially with 50–70 power and using the backboard — is a midrange shot, not a layup. These shots will <strong>not</strong> count as a layup, floater, or drive.</p>
+          <p>Calling a midrange shot a "layup" does not make it one. If you're too far from the basket and have to launch the ball off the backboard with high power, it's a midrange, and it will be officiated as one.</p>
+        </div>
+      </div>
+
+      <div class="rb-update">
+        <span class="rb-update-date">7/2/26 — Additional Gameplay Rule</span>
+        <div class="rb-update-title">Position restrictions &amp; realism enforcement</div>
+        <div class="rb-update-body">
+          <p>All players must play their assigned positions.</p>
+          <ul>
+            <li>Point Guards (PGs) must be the primary ball handlers</li>
+            <li>Forwards and Centers must remain in their designated defensive zones and may not guard the opposing Point Guard unless specifically required by a defensive switch</li>
+            <li>Forwards and Centers may not run Point Guard or act as the team's primary playmaker</li>
+          </ul>
+          <p><strong>Realism enforcement:</strong> spamming deep midrange shots (70+) or repeatedly taking midrange shots is not considered realistic. Teams must attack the basket regularly — you must drive to the paint at least every other offensive possession. Continuously settling for deep midranges will not count as driving or realistic offense and may result in enforcement.</p>
+          <p><strong>Penalty:</strong> 7-day suspension, with a $10 USD or 1,000 Robux bail option to be reinstated early.</p>
+        </div>
+      </div>
+
+      <div class="rb-update">
+        <span class="rb-update-date">7/1/26 — Custom Players Rule</span>
+        <div class="rb-update-title">Custom players &amp; walk-ons</div>
+        <div class="rb-update-body"><p>Custom players may not participate as walk-ons using their custom player. To walk on, they must select a different role from the NBA roster.</p></div>
+      </div>
+
+      <div class="rb-update">
+        <span class="rb-update-date">Roster Movement</span>
+        <div class="rb-update-title">🔒 Trade / switch deadline lock</div>
+        <div class="rb-update-body">
+          <p>Players are not allowed to switch teams until the Trade/Switch Deadline. This is being enforced because players have continued to demand releases, and Franchise Owners have continued releasing players throughout the season, creating unnecessary roster instability.</p>
+          <ul>
+            <li>Players may not request to switch teams before the Trade Deadline</li>
+            <li>Franchise Owners may not release players simply because they request it</li>
+            <li>Staff will no longer make exceptions or entertain complaints regarding team changes before the deadline</li>
+          </ul>
+          <p>Team changes will only be permitted once the Trade Deadline is reached or if approved by league staff under exceptional circumstances.</p>
+        </div>
+      </div>
+    </section>
+
+    <div class="rb-noresults" id="rb-noresults">No rules match your search.</div>
+
+  </main>
+</div>
+
+<footer>
+  <span class="footer-copy">RPL — Revolutionary Pro League</span>
+  <a href="index.html" class="footer-back">← Back to main site</a>
+</footer>
+
+<script>
+/* ---------- mobile TOC toggle ---------- */
+const tocToggle=document.getElementById('rb-toc-toggle');
+const tocList=document.getElementById('rb-toc-list');
+const tocChevron=document.getElementById('rb-toc-chevron');
+tocToggle?.addEventListener('click',()=>{
+  tocList.classList.toggle('open');
+  tocChevron.classList.toggle('open');
+});
+
+/* ---------- active TOC link on scroll ---------- */
+const sections=document.querySelectorAll('.rb-section');
+const tocLinks=document.querySelectorAll('.rb-toc a');
+const io=new IntersectionObserver((entries)=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      tocLinks.forEach(a=>a.classList.toggle('active',a.getAttribute('href')==='#'+e.target.id));
+    }
+  });
+},{rootMargin:'-30% 0px -60% 0px'});
+sections.forEach(s=>io.observe(s));
+
+/* close mobile TOC after tapping a link */
+tocLinks.forEach(a=>a.addEventListener('click',()=>{
+  if(window.innerWidth<=900){tocList.classList.remove('open');tocChevron.classList.remove('open')}
+}));
+
+/* ---------- live search filter ---------- */
+const searchInput=document.getElementById('rb-search-input');
+const searchCount=document.getElementById('rb-search-count');
+const noResults=document.getElementById('rb-noresults');
+const allCards=[...document.querySelectorAll('.rb-card, .rb-update, .rb-award, .rb-link')];
+
+function runSearch(){
+  const q=searchInput.value.trim().toLowerCase();
+  let visibleCount=0;
+  if(!q){
+    allCards.forEach(c=>c.classList.remove('rb-hidden'));
+    sections.forEach(s=>s.classList.remove('rb-hidden'));
+    searchCount.textContent='';
+    noResults.classList.remove('show');
+    return;
+  }
+  sections.forEach(sec=>{
+    let anyMatch=false;
+    const items=sec.querySelectorAll('.rb-card, .rb-update, .rb-award, .rb-link');
+    items.forEach(item=>{
+      const match=item.textContent.toLowerCase().includes(q);
+      item.classList.toggle('rb-hidden',!match);
+      if(match){anyMatch=true;visibleCount++}
+    });
+    const headerMatch=sec.querySelector('.rb-sec-title')?.textContent.toLowerCase().includes(q);
+    sec.classList.toggle('rb-hidden', !(anyMatch||headerMatch));
+    if(headerMatch && !items.length) visibleCount++;
+  });
+  searchCount.textContent=visibleCount+' match'+(visibleCount===1?'':'es');
+  noResults.classList.toggle('show',visibleCount===0);
+}
+searchInput?.addEventListener('input',runSearch);
+</script>
+</body>
+</html>
