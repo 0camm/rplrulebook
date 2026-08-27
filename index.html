@@ -8,9 +8,6 @@
 <link rel="icon" href="Images/RPL-Logo.png?v=2" type="image/png">
 <style>
 
-/* ============================================================
-   DESIGN TOKENS — matched to the main RPL site
-   ============================================================ */
 :root{
   --red:#ff1233;--red2:#ff4d5e;
   --red-dim:rgba(255,18,51,.09);--red-mid:rgba(255,18,51,.22);--red-edge:rgba(255,18,51,.5);
@@ -41,9 +38,11 @@ body{
   min-height:100vh;-webkit-font-smoothing:antialiased;
   width:100%;max-width:100vw;overflow-x:hidden;
 }
-::-webkit-scrollbar{width:4px}
+::selection{background:rgba(255,18,51,.3);color:#fff}
+::-webkit-scrollbar{width:10px;height:10px}
 ::-webkit-scrollbar-track{background:transparent}
-::-webkit-scrollbar-thumb{background:var(--mu2);border-radius:4px}
+::-webkit-scrollbar-thumb{background:var(--s4);border-radius:8px;border:2px solid var(--bg)}
+::-webkit-scrollbar-thumb:hover{background:var(--mu2)}
 a{color:inherit}
 
 /* ---------- NAV ---------- */
@@ -52,53 +51,63 @@ nav{
   height:var(--nav-h);padding-top:var(--safe-top);
   display:flex;align-items:center;justify-content:space-between;
   padding-left:20px;padding-right:20px;
-  background:rgba(5,5,8,.92);
+  background:rgba(8,8,13,.72);
   backdrop-filter:blur(24px) saturate(160%);-webkit-backdrop-filter:blur(24px) saturate(160%);
+  border-bottom:1px solid var(--b2);
 }
 .nav-logo{display:flex;align-items:center;gap:10px;text-decoration:none;-webkit-tap-highlight-color:transparent}
-.nav-brand{font-family:'Bebas Neue',sans-serif;font-size:17px;letter-spacing:.08em;color:#fff;white-space:nowrap}
+.nav-brand{font-family:'Bebas Neue',sans-serif;font-size:17px;letter-spacing:.1em;color:#fff;white-space:nowrap}
 .nav-brand em{color:var(--red);font-style:normal}
 .nav-pill{font-size:10px;font-weight:600;letter-spacing:.08em;color:var(--mu);text-transform:uppercase;background:var(--s2);border:1px solid var(--b);border-radius:20px;padding:3px 9px}
 .nav-back{
   display:inline-flex;align-items:center;gap:6px;
   font-size:12.5px;font-weight:500;color:var(--tx2);text-decoration:none;
-  padding:6px 12px;border-radius:7px;transition:color .16s,background .16s;
+  padding:6px 12px;border-radius:7px;transition:color .16s,background .16s,box-shadow .16s;
 }
-.nav-back:hover{color:#fff;background:rgba(255,255,255,.055)}
+.nav-back:hover{color:#fff;background:rgba(255,255,255,.055);box-shadow:0 0 0 3px var(--red-dim)}
 
 /* ---------- HERO ---------- */
 .rb-hero{
   padding:calc(var(--nav-h) + var(--safe-top) + 44px) 20px 32px;
-  position:relative;border-bottom:1px solid var(--b2);
+  position:relative;border-bottom:1px solid var(--b2);overflow:hidden;
   background:
     radial-gradient(600px 300px at 85% 0%, rgba(255,18,51,.10), transparent 70%);
+}
+.rb-hero::before{
+  content:'';position:absolute;top:-40%;right:-8%;width:480px;height:480px;border-radius:50%;
+  background:radial-gradient(circle,rgba(255,18,51,.16),transparent 70%);pointer-events:none;
 }
 .rb-eyebrow{
   display:inline-flex;align-items:center;gap:9px;
   font-size:10px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;
-  color:var(--red);margin-bottom:14px;
+  color:var(--red);margin-bottom:14px;position:relative;
 }
 .rb-eyebrow::before{content:'';width:20px;height:2px;background:var(--red);border-radius:2px}
 .rb-hero h1{
   font-family:'Bebas Neue',sans-serif;
   font-size:clamp(40px,8vw,64px);
-  line-height:.95;letter-spacing:.02em;color:#fff;margin-bottom:14px;
+  line-height:.95;letter-spacing:.02em;color:#fff;margin-bottom:14px;position:relative;
 }
-.rb-hero h1 em{color:var(--red);font-style:normal}
-.rb-hero-sub{font-size:13.5px;line-height:1.7;font-weight:300;color:rgba(238,238,248,.65);max-width:600px}
+.rb-hero h1 em{
+  color:var(--red);font-style:normal;
+  background:linear-gradient(180deg,var(--red2) 10%,var(--red) 90%);
+  -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
+  filter:drop-shadow(0 2px 20px rgba(255,18,51,.35));
+}
+.rb-hero-sub{font-size:13.5px;line-height:1.7;font-weight:300;color:rgba(238,238,248,.65);max-width:600px;position:relative}
 .rb-hero-note{
   margin-top:18px;font-size:11.5px;color:var(--mu);
-  border-left:2px solid var(--red);padding-left:12px;max-width:600px;line-height:1.6;
+  border-left:2px solid var(--red);padding-left:12px;max-width:600px;line-height:1.6;position:relative;
 }
 
 /* ---------- SEARCH ---------- */
-.rb-search-wrap{padding:16px 20px;border-bottom:1px solid var(--b2);position:sticky;top:calc(var(--nav-h) + var(--safe-top));z-index:100;background:rgba(5,5,8,.96);backdrop-filter:blur(20px)}
+.rb-search-wrap{padding:16px 20px;border-bottom:1px solid var(--b2);position:sticky;top:calc(var(--nav-h) + var(--safe-top));z-index:100;background:rgba(8,8,13,.86);backdrop-filter:blur(20px)}
 .rb-search{
   display:flex;align-items:center;gap:10px;
   background:var(--s1);border:1px solid var(--b);border-radius:10px;
-  padding:11px 14px;max-width:520px;transition:border-color .15s;
+  padding:11px 14px;max-width:520px;transition:border-color .15s,box-shadow .15s;
 }
-.rb-search:focus-within{border-color:var(--red-edge)}
+.rb-search:focus-within{border-color:var(--red-edge);box-shadow:0 0 0 3px var(--red-dim)}
 .rb-search svg{flex-shrink:0;color:var(--mu)}
 .rb-search input{
   flex:1;background:none;border:none;outline:none;color:var(--tx);
@@ -137,8 +146,10 @@ nav{
 .rb-card{
   background:var(--s1);border:1px solid var(--b);border-radius:11px;
   padding:16px 18px;margin-bottom:10px;position:relative;overflow:hidden;
+  box-shadow:var(--shadow-sm);transition:box-shadow .18s ease,transform .18s ease,border-color .18s ease;
 }
 .rb-card::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--mu2)}
+.rb-card:hover{box-shadow:var(--shadow-md);border-color:var(--b3);transform:translateY(-1px)}
 .rb-card-hd{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:6px}
 .rb-card-num{
   font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:700;color:var(--mu);
@@ -174,20 +185,24 @@ nav{
 .rb-note{
   background:var(--s1);border:1px solid var(--b);border-left:3px solid var(--am);
   border-radius:0 10px 10px 0;padding:12px 16px;font-size:12px;color:var(--mu);line-height:1.7;margin-bottom:14px;
+  box-shadow:var(--shadow-sm);
 }
 .rb-note strong{color:var(--tx2)}
 
 /* awards grid */
 .rb-award-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 @media(max-width:640px){.rb-award-grid{grid-template-columns:1fr}}
-.rb-award{background:var(--s1);border:1px solid var(--b);border-radius:10px;padding:13px 16px}
+.rb-award{background:var(--s1);border:1px solid var(--b);border-radius:10px;padding:13px 16px;box-shadow:var(--shadow-sm);transition:transform .15s ease,border-color .15s ease}
+.rb-award:hover{transform:translateY(-1px);border-color:var(--b3)}
 .rb-award-name{display:flex;align-items:center;gap:8px;font-family:'Bebas Neue',sans-serif;font-size:15px;letter-spacing:.04em;color:#fff;margin-bottom:4px}
 .rb-award-desc{font-size:11.5px;color:var(--mu);line-height:1.6}
 
 /* updates timeline */
 .rb-update{
   background:var(--s1);border:1px solid var(--b);border-radius:11px;padding:16px 18px;margin-bottom:12px;position:relative;
+  box-shadow:var(--shadow-sm);transition:box-shadow .18s ease,border-color .18s ease;
 }
+.rb-update:hover{box-shadow:var(--shadow-md);border-color:var(--b3)}
 .rb-update-date{
   font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:700;letter-spacing:.06em;
   color:var(--red);text-transform:uppercase;margin-bottom:6px;display:block;
@@ -203,9 +218,9 @@ nav{
 .rb-link{
   display:flex;align-items:center;gap:8px;background:var(--s1);border:1px solid var(--b);
   border-radius:8px;padding:10px 13px;font-family:'JetBrains Mono',monospace;font-size:11.5px;color:var(--tx2);
-  text-decoration:none;transition:border-color .15s,color .15s;word-break:break-all;
+  text-decoration:none;transition:border-color .15s,color .15s,transform .15s;word-break:break-all;
 }
-.rb-link:hover{border-color:rgba(255,255,255,.15);color:var(--tx)}
+.rb-link:hover{border-color:rgba(255,255,255,.15);color:var(--tx);transform:translateX(1px)}
 .rb-link-tag{font-size:9px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--gr);background:var(--gr-d);border-radius:3px;padding:2px 6px;flex-shrink:0;font-family:'Inter',sans-serif}
 
 /* hidden by search filter */
@@ -220,7 +235,7 @@ nav{
   .rb-toc{
     position:relative;top:0;width:100%;max-height:none;
     margin-bottom:20px;border:1px solid var(--b);border-radius:11px;background:var(--s1);
-    overflow:hidden;
+    overflow:hidden;box-shadow:var(--shadow-sm);
   }
   .rb-toc-toggle{
     display:flex;align-items:center;justify-content:space-between;width:100%;
@@ -250,6 +265,7 @@ footer{border-top:1px solid var(--b2);padding:26px 20px calc(26px + var(--safe-b
 
 <nav>
   <a href="index.html" class="nav-back">← Back to site</a>
+  <span class="nav-pill">Season 14</span>
 </nav>
 
 <header class="rb-hero">
